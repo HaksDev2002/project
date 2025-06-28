@@ -3,7 +3,6 @@ import { Category, PaginatedResponse, Product } from "../types";
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-// API response types
 interface ApiResponse<T> {
   status: "success" | "error";
   data?: T;
@@ -11,7 +10,6 @@ interface ApiResponse<T> {
   errors?: string[];
 }
 
-// Generic API request function
 const apiRequest = async <T>(
   endpoint: string,
   options: RequestInit = {}
@@ -46,7 +44,6 @@ const apiRequest = async <T>(
 };
 
 export const api = {
-  // Categories
   getCategories: () => apiRequest<Category[]>("/categories"),
 
   getCategoryById: (categoryId: string) =>
@@ -72,7 +69,6 @@ export const api = {
       method: "DELETE",
     }),
 
-  // Products
   getProducts: (params: {
     page?: number;
     limit?: number;
@@ -112,10 +108,9 @@ export const api = {
     apiRequest<any>(`/products/${productId}`),
 };
 
-// Types (re-export from existing types)
 export type {
-  Product,
   Category,
   CreateProductRequest,
   PaginatedResponse,
+  Product,
 } from "../types";

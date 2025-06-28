@@ -1,12 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import CategoryForm from "./components/CategoryForm";
 import Layout from "./components/Layout";
-import ProductList from "./pages/ProductList";
 import ProductForm from "./components/ProductForm";
 import CategoryList from "./pages/CategoryList";
-import CategoryForm from "./components/CategoryForm";
+import ProductList from "./pages/ProductList";
+import { store } from "./store";
 
 function App() {
   return (

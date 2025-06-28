@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Search, Filter, X, ChevronDown } from "lucide-react";
+import { ChevronDown, Filter, Search, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import {
@@ -46,7 +46,6 @@ const SearchAndFilter: React.FC = () => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
-        {/* Search */}
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <input
@@ -66,7 +65,6 @@ const SearchAndFilter: React.FC = () => {
           )}
         </div>
 
-        {/* Filter Dropdown */}
         <div className="relative" ref={filterRef}>
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -93,7 +91,6 @@ const SearchAndFilter: React.FC = () => {
           {isFilterOpen && (
             <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
               <div className="p-4">
-                {/* Header row: Title + Clear all button area (always rendered) */}
                 <div className="flex items-center justify-between mb-3 h-5">
                   <h3 className="font-medium text-gray-900">Categories</h3>
                   <div>
@@ -110,7 +107,6 @@ const SearchAndFilter: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Category List */}
                 <div className="space-y-2 max-h-48 overflow-y-auto">
                   {categories.map((category) => (
                     <label
@@ -138,7 +134,6 @@ const SearchAndFilter: React.FC = () => {
         </div>
       </div>
 
-      {/* Active Filters */}
       {selectedCategories.length > 0 && (
         <div className="mt-4 pt-4 border-t border-gray-200">
           <div className="flex items-center space-x-2 mb-2">

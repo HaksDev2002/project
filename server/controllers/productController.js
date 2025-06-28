@@ -1,6 +1,6 @@
-import Product from "../models/Product.js";
-import Category from "../models/Category.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
+import Category from "../models/Category.js";
+import Product from "../models/Product.js";
 
 export const getProducts = asyncHandler(async (req, res) => {
   const { page = 1, limit = 5, search = "", categories = "" } = req.query;

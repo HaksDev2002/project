@@ -1,20 +1,20 @@
+import { Field, Form, Formik, ErrorMessage as FormikError } from "formik";
+import { ArrowLeft, Save, X } from "lucide-react";
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Save, ArrowLeft, X } from "lucide-react";
+import * as Yup from "yup";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import {
-  createProduct,
-  fetchCategories,
-  fetchProducts,
   clearError,
-  fetchProductById,
+  createProduct,
   editProduct,
+  fetchCategories,
+  fetchProductById,
+  fetchProducts,
 } from "../store/slices/productsSlice";
-import LoadingSpinner from "./LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
-import { Formik, Form, Field, ErrorMessage as FormikError } from "formik";
-import * as Yup from "yup";
+import LoadingSpinner from "./LoadingSpinner";
 
 type ProductFormValues = {
   name: string;

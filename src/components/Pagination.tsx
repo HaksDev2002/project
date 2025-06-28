@@ -1,10 +1,10 @@
-import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import {
-  setCurrentPage,
   fetchProducts,
+  setCurrentPage,
   setLimit,
 } from "../store/slices/productsSlice";
 

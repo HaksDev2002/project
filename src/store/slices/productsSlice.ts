@@ -1,13 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import {
-  Product,
-  Category,
-  CreateProductRequest,
-  ProductsState,
-} from "../../types";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CreateProductRequest, ProductsState } from "../../types";
 import { api } from "../../utils/api";
 
-// Initial state
 const initialState: ProductsState = {
   products: [],
   categories: [],
@@ -18,11 +12,10 @@ const initialState: ProductsState = {
   currentPage: 1,
   totalPages: 0,
   totalProducts: 0,
-  selectedProduct: null, // <- Add this line
+  selectedProduct: null,
   limit: 5,
 };
 
-// Async thunks
 export const fetchCategories = createAsyncThunk(
   "products/fetchCategories",
   async () => {
@@ -81,18 +74,17 @@ export const editProduct = createAsyncThunk(
   }
 );
 
-// Slice
 const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     setSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
-      state.currentPage = 1; // Reset to first page when searching
+      state.currentPage = 1;
     },
     setSelectedCategories: (state, action: PayloadAction<string[]>) => {
       state.selectedCategories = action.payload;
-      state.currentPage = 1; // Reset to first page when filtering
+      state.currentPage = 1;
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
@@ -102,12 +94,11 @@ const productsSlice = createSlice({
     },
     setLimit: (state, action: PayloadAction<number>) => {
       state.limit = action.payload;
-      state.currentPage = 1; // Reset to first page when limit changes
+      state.currentPage = 1;
     },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch categories
       .addCase(fetchCategories.pending, (state) => {
         state.loading = true;
       })
@@ -119,7 +110,7 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch categories";
       })
-      // Fetch products
+
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
       })
@@ -134,7 +125,7 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch products";
       })
-      // Create product
+
       .addCase(createProduct.pending, (state) => {
         state.loading = true;
       })
@@ -146,7 +137,7 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to create product";
       })
-      // Delete product
+
       .addCase(deleteProduct.pending, (state) => {
         state.loading = true;
       })
@@ -159,7 +150,6 @@ const productsSlice = createSlice({
         state.error = action.error.message || "Failed to delete product";
       })
 
-      // Fetch product by ID
       .addCase(fetchProductById.pending, (state) => {
         state.loading = true;
       })
@@ -172,7 +162,6 @@ const productsSlice = createSlice({
         state.error = action.error.message || "Failed to fetch product";
       })
 
-      // Edit product
       .addCase(editProduct.pending, (state) => {
         state.loading = true;
       })

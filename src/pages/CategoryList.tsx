@@ -1,15 +1,16 @@
+import { Edit, Plus, Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import ErrorMessage from "../components/ErrorMessage";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import {
-  fetchCategories,
-  deleteCategory,
   clearError,
+  deleteCategory,
+  fetchCategories,
 } from "../store/slices/categoriesSlice";
-import LoadingSpinner from "../components/LoadingSpinner";
-import ErrorMessage from "../components/ErrorMessage";
 
 const CategoryList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,15 +23,26 @@ const CategoryList: React.FC = () => {
   }, [dispatch]);
 
   const handleDelete = async (categoryId: string, categoryName: string) => {
-    if (!confirm(`Are you sure you want to delete "${categoryName}"?`)) {
-      return;
-    }
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: `Do you really want to delete "${categoryName}"? This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       await dispatch(deleteCategory(categoryId)).unwrap();
       dispatch(fetchCategories());
+
+      Swal.fire("Deleted!", `"${categoryName}" has been deleted.`, "success");
     } catch (error) {
-      // Error is handled by Redux
+      console.log(error);
     }
   };
 
@@ -44,7 +56,6 @@ const CategoryList: React.FC = () => {
 
   return (
     <div>
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
@@ -67,7 +78,6 @@ const CategoryList: React.FC = () => {
         </Link>
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className="mb-6">
           <ErrorMessage
@@ -77,7 +87,6 @@ const CategoryList: React.FC = () => {
         </div>
       )}
 
-      {/* Categories Grid */}
       {categories.length === 0 && !loading ? (
         <div className="text-center py-12">
           <div className="bg-gray-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">

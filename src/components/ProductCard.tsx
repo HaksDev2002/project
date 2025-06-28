@@ -1,12 +1,13 @@
+import { Calendar, Package, Pencil, Trash2 } from "lucide-react";
 import React, { useState } from "react";
-import { Trash2, Calendar, Package, Pencil } from "lucide-react";
-import { Product } from "../types";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { deleteProduct, fetchProducts } from "../store/slices/productsSlice";
+import { Product } from "../types";
 import CategoryTag from "./CategoryTag";
 import LoadingSpinner from "./LoadingSpinner";
-import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
   product: Product;
@@ -30,9 +31,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   const handleDelete = async () => {
-    if (!confirm(`Are you sure you want to delete "${product.name}"?`)) {
-      return;
-    }
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: `Do you really want to delete "${product.name}"? This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
 
     setIsDeleting(true);
     try {
@@ -44,7 +54,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           categories: selectedCategories,
         })
       );
+      Swal.fire("Deleted!", `"${product.name}" has been deleted.`, "success");
     } catch (error) {
+      Swal.fire("Error", "Something went wrong while deleting.", "error");
     } finally {
       setIsDeleting(false);
     }

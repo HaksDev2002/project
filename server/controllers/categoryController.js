@@ -1,5 +1,6 @@
-import Category from "../models/Category.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
+import Category from "../models/Category.js";
+import Product from "../models/Product.js";
 
 export const getCategories = asyncHandler(async (req, res) => {
   const categories = await Category.find({}).sort({ name: 1 }).lean();
@@ -75,6 +76,18 @@ export const deleteCategory = asyncHandler(async (req, res) => {
     return res.status(404).json({
       status: "error",
       message: "Category not found",
+    });
+  }
+
+  // Check if any product is using this category
+  const productUsingCategory = await Product.findOne({
+    categories: id,
+  }).lean();
+
+  if (productUsingCategory) {
+    return res.status(400).json({
+      status: "error",
+      message: `Cannot delete category "${category.name}" because it is assigned to one or more products.`,
     });
   }
 

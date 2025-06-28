@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Category } from "../../types";
 import { api } from "../../utils/api";
 
@@ -14,7 +14,6 @@ const initialState: CategoriesState = {
   error: null,
 };
 
-// Async thunks
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async () => {
@@ -61,7 +60,6 @@ export const deleteCategory = createAsyncThunk(
   }
 );
 
-// Slice
 const categoriesSlice = createSlice({
   name: "categories",
   initialState,
@@ -72,7 +70,6 @@ const categoriesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch categories
       .addCase(fetchCategories.pending, (state) => {
         state.loading = true;
       })
@@ -84,7 +81,7 @@ const categoriesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch categories";
       })
-      // Fetch category by ID
+
       .addCase(fetchCategoryById.pending, (state) => {
         state.loading = true;
       })
@@ -95,7 +92,7 @@ const categoriesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch category";
       })
-      // Create category
+
       .addCase(createCategory.pending, (state) => {
         state.loading = true;
       })
@@ -108,7 +105,7 @@ const categoriesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to create category";
       })
-      // Update category
+
       .addCase(updateCategory.pending, (state) => {
         state.loading = true;
       })
@@ -126,7 +123,7 @@ const categoriesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to update category";
       })
-      // Delete category
+
       .addCase(deleteCategory.pending, (state) => {
         state.loading = true;
       })

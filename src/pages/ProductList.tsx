@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
 import { Plus } from "lucide-react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Pagination from "../components/Pagination";
+import ProductCard from "../components/ProductCard";
+import SearchAndFilter from "../components/SearchAndFilter";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import {
-  fetchProducts,
-  fetchCategories,
   clearError,
+  fetchCategories,
+  fetchProducts,
 } from "../store/slices/productsSlice";
-import ProductCard from "../components/ProductCard";
-import SearchAndFilter from "../components/SearchAndFilter";
-import Pagination from "../components/Pagination";
-import LoadingSpinner from "../components/LoadingSpinner";
-import ErrorMessage from "../components/ErrorMessage";
 
 const ProductList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,10 +28,8 @@ const ProductList: React.FC = () => {
   } = useAppSelector((state) => state.products);
 
   useEffect(() => {
-    // Fetch categories if not already loaded
     dispatch(fetchCategories());
 
-    // Fetch products
     dispatch(
       fetchProducts({
         page: currentPage,
@@ -44,7 +42,6 @@ const ProductList: React.FC = () => {
 
   return (
     <div>
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
@@ -67,7 +64,6 @@ const ProductList: React.FC = () => {
         </Link>
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className="mb-6">
           <ErrorMessage
@@ -77,10 +73,8 @@ const ProductList: React.FC = () => {
         </div>
       )}
 
-      {/* Search and Filter */}
       <SearchAndFilter />
 
-      {/* Products Grid */}
       {loading && products.length > 0 && (
         <div className="flex justify-center mb-4">
           <LoadingSpinner />
