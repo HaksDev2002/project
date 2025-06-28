@@ -38,7 +38,7 @@ const ProductList: React.FC = () => {
         limit,
       })
     );
-  }, [dispatch, currentPage, searchTerm, selectedCategories]);
+  }, [dispatch, currentPage, searchTerm, selectedCategories, limit]);
 
   return (
     <div>
@@ -112,7 +112,6 @@ const ProductList: React.FC = () => {
             ))}
           </div>
 
-          {/* Pagination */}
           <Pagination />
         </>
       )}

@@ -62,7 +62,7 @@ const Pagination: React.FC = () => {
     return rangeWithDots;
   };
 
-  if (totalPages <= 1) return null;
+  if (totalPages < 1) return null;
 
   const visiblePages = getVisiblePages();
   const startItem = (currentPage - 1) * 5 + 1;
@@ -117,6 +117,7 @@ const Pagination: React.FC = () => {
               onChange={(e) => {
                 const newLimit = parseInt(e.target.value, 10);
                 dispatch(setLimit(newLimit));
+                dispatch(setCurrentPage(1));
                 dispatch(
                   fetchProducts({
                     page: 1,
